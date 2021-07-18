@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Point Distance</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet' />
+  </head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+
+    #map-overlay {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.8);
+      margin-right: 20px;
+      margin-top: 20px;
+      padding: 10px 0 0 10px;
+      font-family: Arial, sans-serif;
+      overflow: auto;
+      width: 200px;
+      height: 50px;
+      border-radius: 3px;
+    }
+
+  </style>
+
+  <body>
+    <div id='map'></div>
+    <div id='map-overlay'>Distance: </div>
+    <script>
+      mapboxgl.accessToken = 'pk.eyJ1IjoidGFydW4tMTgwMSIsImEiOiJja3FpdzZzdXcwMWNuMnFwaGZucHZqMmxwIn0.YSYoTUJkW6ppiRO16-RxIA';
+      var map = new mapboxgl.Map({
+        container: 'map', // container id
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-89.384, 43.101],
+        zoom: 5
+      });
+
+      //YOUR TURN: Replace var to = [lng, lat] with the lng/lat for Madison, WI [-89.384, 43.101] 
+      //YOUR TURN: Replace var to = [lng, lat] with the lng/lat for Chicago, Il [-87.627, 41.919] 
+
+      var to = [lng, lat] //lng, lat
+      var from = [lng, lat] //lng, lat 
+
+      var greenMarker = new mapboxgl.Marker({
+          color: 'green'
+        })
+        .setLngLat(to) // marker position using variable 'to'
+        .addTo(map); //add marker to map
+
+      var purpleMarker = new mapboxgl.Marker({
+          color: 'purple'
+        })
+        .setLngLat(from) // marker position using variable 'from'
+        .addTo(map); //add marker to map
+
+      var options = {
+        units: 'miles'
+      }; // units can be degrees, radians, miles, or kilometers, just be sure to change the units in the text box to match. 
+
+      var distance = turf.distance(to, from, options);
+
+      var value = document.getElementById('map-overlay')
+      value.innerHTML = "Distance: " + distance.toFixed([2]) + " miles"
+
+    </script>
+  </body>
+<script src = "index.js"></script>
+</html>
